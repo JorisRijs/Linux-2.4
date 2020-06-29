@@ -1,4 +1,4 @@
-#algemeen
+# algemeen<br>
   Alle moeten worden ingericht via Saltstack<br>
   Tijdens het opstarten van een VM mag je een script (userdata) meegeven zodat<br>
   Saltstack minion serivces worden geinstalleerd<br>
