@@ -11,10 +11,10 @@ echo "deb https://repo.nagios.com/deb/bionic /" > /etc/apt/sources.list.d/nagios
 wget -qO - https://repo.nagios.com/GPG-KEY-NAGIOS-V2 | apt-key add -
 
 apt-get update
-apt-get install ncpa
+apt-get install ncpa -y
 
 apt update
-apt install wordpress php libapache2-mod-php mysql-server php-mysql
+apt install wordpress php libapache2-mod-php mysql-server php-mysql -y
 touch /etc/apache2/sites-availible/wordpress.conf
 echo "Alias /blog /usr/share/wordpress
 <Directory /usr/share/wordpress>
