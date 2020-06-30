@@ -1,34 +1,48 @@
-#!/bin/bash
+#! /bin/bash
 
-sudo ufw allow "apache"
-sudo ufw allow "apache Full"
-sudo ufw allow "apache Secure"
-sudo ufw enable
+DBuser = $1
+DBpassword = $2
+Nagiospassword= $3
+Nagioshost = $4
+MySQLrootPassword = $5
 
-sudo sed -i 's/index.php/index.html/' /etc/apache2/mods-enabled/dir.conf
-sudo sed -i 's/index.html/index.php/' /etc/apache2/mods-enabled/dir.conf
-sudo systemctl restart apache2
+sudo -i
+echo "deb https://repo.nagios.com/deb/bionic /" >:w:q /etc/apt/sources.list.d/nagios.list
 
-sudo mysql -p "Pa$$w0rd" < "$1"
+apt-get update
+apt-get install ncpa
 
-sudo touch /etc/apache2/sites-available/wordpress.conf
-echo "<Directory /var/www/wordpress /> AllowOverride All </Directory>" >> /etc/apache2/sites-available/wordpress.conf
+sudo apt update
+sudo apt install wordpress php libapache2-mod-php mysql-server php-mysql
+sudo touch /etc/apache2/sites-availible/wordpress.conf
+sudo echo "Alias /blog /usr/share/wordpress
+<Directory /usr/share/wordpress>
+    Options FollowSymLinks
+    AllowOverride Limit Options FileInfo
+   index.php
+  Order allow,deny
+  Allow from all
+</Directory>
+<Directory /usr/share/wordpress/wp-content>
+Options FollowSymLinks
+Order allow,deny
+Allow from all
+</Directory>" >> /etc/apache2/sites-available/wordpress.conf
+sudo a2ensite wordpress
 sudo a2enmod rewrite
-sudo apache2ctl configtest
+sudo service apache2 reload
+sudo mysql -u root -p $DPpassword < CREATE DATABASE wordpress;
+sudo mysql -u root -p $DBpassword < GRANT SELECT, UPDATE, DELETE, CREATE, DROP, ALTER ON wordpress.* TO $DBuser@localhost IDENTIFIED BY $DBpassword;
+sudo mysql -u root -p $DBpassword < FLUSH PRIVILEGES;
 
-cd /tmp
-sudo curl -O https://wordpress.org/latest.tar.gz
-sudo tar xzvf latest.tar.gz
-sudo touch /tmp/wordpress/.htaccess
-sudo mv /tmp/wordpress/wp-config-sample.php /tmp/wordpress/wp-config.php
-sudo mkdir /tmp/wordpress/wp-content/upgrade
-sudo cp -a /tmp/wordpress/. /var/www/wordpress
+sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql.conf.d/mysqld.cnf
+sudo service mysql start
 
-sudo chwon -R www-data:www-data /var/www/wordpress
-sudo find /var/www/wordpress/ -type d -exec chmod 750 {} \;
-sudo find /var/www/wordpress/ -type f -exec chmod 640 {} \;
-sudo curl -s https://api.wordpress.org/secret-key/1.1/salt/ >> /var/www/wordpress/wp-config.php
-sudo sed -i 's/database_name_here/WordPressDB/' /var/www/wordpress/wp-config.php
-sudo sed -i 's/username_here/WordPressUSER/' /var/www/wordpress/wp-config.php
-sudo sed -i 's/password_here/Pa$$w0rd/' /var/www/wordpress/wp-config.php
-sudo echo "define('FS_METHOD', 'direct')"
+sudo echo "<?php
+define('DB_NAME', '{{pillar['DBuser']}}');
+define('DB_USER', '{{pillar['DBuser']}}');
+define('DB_PASSWORD', ''{{pillar['DBpassword']}});
+define('DB_HOST', 'localhost');
+define('DB_COLLATE', 'utf8_general_ci');
+define('WP_CONTENT_DIR', '/usr/share/wordpress/wp-content');
+?>" >> /etc/wordpress/config-localhost.php
