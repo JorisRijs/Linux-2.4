@@ -12,10 +12,10 @@ echo "deb https://repo.nagios.com/deb/bionic /" >:w:q /etc/apt/sources.list.d/na
 apt-get update
 apt-get install ncpa
 
-sudo apt update
-sudo apt install wordpress php libapache2-mod-php mysql-server php-mysql
-sudo touch /etc/apache2/sites-availible/wordpress.conf
-sudo echo "Alias /blog /usr/share/wordpress
+apt update
+apt install wordpress php libapache2-mod-php mysql-server php-mysql
+touch /etc/apache2/sites-availible/wordpress.conf
+echo "Alias /blog /usr/share/wordpress
 <Directory /usr/share/wordpress>
     Options FollowSymLinks
     AllowOverride Limit Options FileInfo
@@ -28,17 +28,17 @@ Options FollowSymLinks
 Order allow,deny
 Allow from all
 </Directory>" >> /etc/apache2/sites-available/wordpress.conf
-sudo a2ensite wordpress
-sudo a2enmod rewrite
-sudo service apache2 reload
-sudo mysql -u root -p $DPpassword < CREATE DATABASE wordpress;
-sudo mysql -u root -p $DBpassword < GRANT SELECT, UPDATE, DELETE, CREATE, DROP, ALTER ON wordpress.* TO $DBuser@localhost IDENTIFIED BY $DBpassword;
-sudo mysql -u root -p $DBpassword < FLUSH PRIVILEGES;
+a2ensite wordpress
+a2enmod rewrite
+service apache2 reload
+mysql -u root -p $DPpassword < CREATE DATABASE wordpress;
+mysql -u root -p $DBpassword < GRANT SELECT, UPDATE, DELETE, CREATE, DROP, ALTER ON wordpress.* TO $DBuser@localhost IDENTIFIED BY $DBpassword;
+mysql -u root -p $DBpassword < FLUSH PRIVILEGES;
 
 sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql.conf.d/mysqld.cnf
-sudo service mysql start
+service mysql start
 
-sudo echo "<?php
+echo "<?php
 define('DB_NAME', '{{pillar['DBuser']}}');
 define('DB_USER', '{{pillar['DBuser']}}');
 define('DB_PASSWORD', ''{{pillar['DBpassword']}});
