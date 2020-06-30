@@ -20,14 +20,14 @@ echo "Alias /blog /usr/share/wordpress
 <Directory /usr/share/wordpress>
     Options FollowSymLinks
     AllowOverride Limit Options FileInfo
-   index.php
-  Order allow,deny
-  Allow from all
+    DirectoryIndex index.php
+    Order allow,deny
+    Allow from all
 </Directory>
 <Directory /usr/share/wordpress/wp-content>
-Options FollowSymLinks
-Order allow,deny
-Allow from all
+    Options FollowSymLinks
+    Order allow,deny
+    Allow from all
 </Directory>" >> /etc/apache2/sites-available/wordpress.conf
 a2ensite wordpress
 a2enmod rewrite
