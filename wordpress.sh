@@ -8,6 +8,7 @@ MySQLrootPassword = $5
 
 sudo -i
 echo "deb https://repo.nagios.com/deb/bionic /" > /etc/apt/sources.list.d/nagios.list
+wget -qO - https://repo.nagios.com/GPG-KEY-NAGIOS-V2 | apt-key add -
 
 apt-get update
 apt-get install ncpa
