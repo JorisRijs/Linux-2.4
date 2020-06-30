@@ -32,11 +32,11 @@ Allow from all
 a2ensite wordpress
 a2enmod rewrite
 service apache2 reload
-mysql -u root -p $DPpassword < "CREATE DATABASE wordpress;"
-mysql -u root -p $DBpassword < "GRANT SELECT, UPDATE, DELETE, CREATE, DROP, ALTER ON wordpress.* TO $DBuser@localhost IDENTIFIED BY $DBpassword;"
-mysql -u root -p $DBpassword < "FLUSH PRIVILEGES;"
+mysql -u root -p $DPpassword < CREATE DATABASE wordpress;
+mysql -u root -p $DBpassword < GRANT SELECT, UPDATE, DELETE, CREATE, DROP, ALTER ON wordpress.* TO $DBuser@localhost IDENTIFIED BY $DBpassword;
+mysql -u root -p $DBpassword < FLUSH PRIVILEGES;
 
-sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql.conf.d/mysqld.cnf
+sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/mysql.conf.d/mysqld.cnf
 service mysql start
 
 echo "<?php
