@@ -15,7 +15,7 @@ apt-get install ncpa -y
 
 apt update
 apt install wordpress php libapache2-mod-php mysql-server php-mysql -y
-touch /etc/apache2/sites-availible/wordpress.conf
+touch /etc/apache2/sites-available/wordpress.conf
 echo "Alias /blog /usr/share/wordpress
 <Directory /usr/share/wordpress>
     Options FollowSymLinks
@@ -32,9 +32,9 @@ Allow from all
 a2ensite wordpress
 a2enmod rewrite
 service apache2 reload
-mysql -u root -p $DPpassword < CREATE DATABASE wordpress;
-mysql -u root -p $DBpassword < GRANT SELECT, UPDATE, DELETE, CREATE, DROP, ALTER ON wordpress.* TO $DBuser@localhost IDENTIFIED BY $DBpassword;
-mysql -u root -p $DBpassword < FLUSH PRIVILEGES;
+mysql -u root -p $DPpassword << MYSQL_SCRIPT CREATE DATABASE wordpress; MYSQL_SCRIPT
+mysql -u root -p $DBpassword << MYSQL_SCRIPT GRANT SELECT, UPDATE, DELETE, CREATE, DROP, ALTER ON wordpress.* TO $DBuser@localhost IDENTIFIED BY $DBpassword; MYSQL_SCRIPT
+mysql -u root -p $DBpassword << MYSQL_SCRIPT FLUSH PRIVILEGES; MYSQL_SCRIPT
 
 sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/mysql.conf.d/mysqld.cnf
 service mysql start
