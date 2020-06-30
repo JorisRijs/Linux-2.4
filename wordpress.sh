@@ -7,38 +7,39 @@ Nagioshost = $4
 MySQLrootPassword = $5
 
 sudo -i
-echo "deb https://repo.nagios.com/deb/bionic /" >:w:q /etc/apt/sources.list.d/nagios.list
+echo "deb https://repo.nagios.com/deb/bionic /" > /etc/apt/sources.list.d/nagios.list
+wget -qO - https://repo.nagios.com/GPG-KEY-NAGIOS-V2 | apt-key add -
 
 apt-get update
-apt-get install ncpa
+apt-get install ncpa -y
 
-sudo apt update
-sudo apt install wordpress php libapache2-mod-php mysql-server php-mysql
-sudo touch /etc/apache2/sites-availible/wordpress.conf
-sudo echo "Alias /blog /usr/share/wordpress
+apt update
+apt install wordpress php libapache2-mod-php mysql-server php-mysql -y
+touch /etc/apache2/sites-available/wordpress.conf
+echo "Alias /blog /usr/share/wordpress
 <Directory /usr/share/wordpress>
     Options FollowSymLinks
     AllowOverride Limit Options FileInfo
-   index.php
-  Order allow,deny
-  Allow from all
+    DirectoryIndex index.php
+    Order allow,deny
+    Allow from all
 </Directory>
 <Directory /usr/share/wordpress/wp-content>
-Options FollowSymLinks
-Order allow,deny
-Allow from all
+    Options FollowSymLinks
+    Order allow,deny
+    Allow from all
 </Directory>" >> /etc/apache2/sites-available/wordpress.conf
-sudo a2ensite wordpress
-sudo a2enmod rewrite
-sudo service apache2 reload
-sudo mysql -u root -p $DPpassword < CREATE DATABASE wordpress;
-sudo mysql -u root -p $DBpassword < GRANT SELECT, UPDATE, DELETE, CREATE, DROP, ALTER ON wordpress.* TO $DBuser@localhost IDENTIFIED BY $DBpassword;
-sudo mysql -u root -p $DBpassword < FLUSH PRIVILEGES;
+a2ensite wordpress
+a2enmod rewrite
+service apache2 reload
+mysql -u root -p $DPpassword -e "CREATE DATABASE wordpress;"
+mysql -u root -p $DBpassword -e "GRANT SELECT, UPDATE, DELETE, CREATE, DROP, ALTER ON wordpress.* TO $DBuser@localhost IDENTIFIED BY $DBpassword;"
+mysql -u root -p $DBpassword -e "FLUSH PRIVILEGES;"
 
-sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql.conf.d/mysqld.cnf
-sudo service mysql start
+sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/mysql.conf.d/mysqld.cnf
+service mysql start
 
-sudo echo "<?php
+echo "<?php
 define('DB_NAME', '{{pillar['DBuser']}}');
 define('DB_USER', '{{pillar['DBuser']}}');
 define('DB_PASSWORD', ''{{pillar['DBpassword']}});
