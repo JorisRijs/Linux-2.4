@@ -36,10 +36,10 @@ mysql -u root -e "FLUSH PRIVILEGES;"
 sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/mysql.conf.d/mysqld.cnf
 service mysql start
 
-echo "<?php
-define('DB_NAME', '{{pillar['DBuser']}}');
-define('DB_USER', '{{pillar['DBuser']}}');
-define('DB_PASSWORD', ''{{pillar['DBpassword']}});
+echo d"<?php
+define('DB_NAME', '$DBuser);
+define('DB_USER', '$DBuser');
+define('DB_PASSWORD', '$DBuser');
 define('DB_HOST', 'localhost');
 define('DB_COLLATE', 'utf8_general_ci');
 define('WP_CONTENT_DIR', '/usr/share/wordpress/wp-content');
