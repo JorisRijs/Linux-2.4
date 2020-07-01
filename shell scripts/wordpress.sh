@@ -36,7 +36,7 @@ mysql -u root -e "FLUSH PRIVILEGES;"
 sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/mysql.conf.d/mysqld.cnf
 service mysql start
 
-echo d"<?php
+echo "<?php
 define('DB_NAME', 'wordpress');
 define('DB_USER', '$DBuser');
 define('DB_PASSWORD', '$DBpassword');
