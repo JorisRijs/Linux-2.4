@@ -39,7 +39,7 @@ service mysql start
 echo d"<?php
 define('DB_NAME', '$DBuser);
 define('DB_USER', '$DBuser');
-define('DB_PASSWORD', '$DBuser');
+define('DB_PASSWORD', '$DBpassword');
 define('DB_HOST', 'localhost');
 define('DB_COLLATE', 'utf8_general_ci');
 define('WP_CONTENT_DIR', '/usr/share/wordpress/wp-content');
