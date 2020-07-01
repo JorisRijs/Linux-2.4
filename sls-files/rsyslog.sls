@@ -10,11 +10,10 @@ set up rsyslog:
       $AllowedSender UDP, 127.0.0.1, 192.168.0.0/24, *.example.com
       ' >> /etc/rsyslog.conf
     - name: sed '/\GLOBAL DIRECTIVE\/i $template remote-incoming-logs,
-      "/var/log/%HOSTNAME%/%PROGRAMNAME%.log" 
-      *.* ?remote-incoming-logs' /etc/rsyslog.conf
+      "/var/log/%HOSTNAME%/%PROGRAMNAME%.log"
+      *.* ?remote-incoming-logs/' /etc/rsyslog.conf
 starting rsyslog:
   cmd.run:
     - name: rsyslogd -f /etc/rsyslog.conf -N1
     - name: sudo -i
     - name: systemctl restart rsyslog
-

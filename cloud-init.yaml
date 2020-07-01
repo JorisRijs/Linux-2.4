@@ -9,7 +9,7 @@ runcmd:
   - curl https://assets.nagios.com/downloads/nagiosxi/install.sh | sh
 #for the salt minion
 runcmd:
-  - apt-get update && apt updatevim g
+  - apt-get update && apt update
   - apt-get upgrade && apt upgrade
   - curl -L https://bootstrap.saltstack.com -o install_salt.sh
   - sh install_salt.sh -A 10.0.7.149

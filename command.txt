@@ -1,0 +1,11 @@
+name: sudo -i && git clone https://github.com/JorisRijs/Linux-2.4 && chmod 777 /root/Linux-2.4/wordpress.sh && sh /root/linux-2.4/server-1.sh "{{pillar['DBuser'] }}" "{{ pillar['DBpassword'] }}" "{{ pillar['Nagiospassword'] }}" "{{pillar['Nagioshost'] }}" "{{ pillar['mysqlrootpw'] }}"
+
+- name: sudo -i && git clone https://github.com/JorisRijs/Linux-2.4 && chmod 777 /root/Linux-2.4/docker.sh && sh /root/Linux-2.4/docker.sh
+
+sudo -i ; git clone https://github.com/JorisRijs/Linux-2.4 ; chmod 777 /root/Linux-2.4/shell\ scripts/docker.sh ; sh /root/Linux-2.4/shell\ scripts/docker.sh
+
+sudo -i ; git clone https://github.com/JorisRijs/Linux-2.4 ; chmod 777 /root/Linux-2.4/shell\ scripts/wordpress.sh ; sh /root/Linux-2.4/shell\ scripts/wordpress.sh {{pillar['DBuser'] }} {{ pillar['DBpassword'] }} {{ pillar['Nagiospassword'] }} {{pillar['Nagioshost'] }} {{ pillar['mysqlrootpw'] }}
+
+sudo -i ; git clone https://github.com/JorisRijs/Linux-2.4 ; chmod 777 /root/Linux-2.4/shell\ scripts/rsyslog.sh ; sh /root/Linux-2.4/shell\ scripts/rsyslog.sh
+
+sudo -i ; git clone https://github.com/JorisRijs/Linux-2.4 ; chmod 777 /root/Linux-2.4/shell\ scripts/nagios.sh ; sh /root/Linux-2.4/shell\ scripts/nagios.sh "{{pillar['Nagiostoken']}}"

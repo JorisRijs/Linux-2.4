@@ -1,6 +1,8 @@
 essentialapplication:
   pkg.installed:
       - pkgs:
-      - vim
-      - tmux
-      - curl
+        - vim
+        - tmux
+        - curl
+  cmd.run:
+    - name: sudo -i
