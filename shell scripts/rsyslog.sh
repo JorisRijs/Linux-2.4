@@ -14,4 +14,4 @@ tee -a /etc/rsyslog.conf > /dev/null <<EOT
 \$ActionResumeRetryCount -1
 EOT
 
-systemtcl restart rsyslog
+systemctl restart rsyslog
