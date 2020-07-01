@@ -41,4 +41,4 @@ define('DB_PASSWORD', ''{{pillar['DBpassword']}});
 define('DB_HOST', 'localhost');
 define('DB_COLLATE', 'utf8_general_ci');
 define('WP_CONTENT_DIR', '/usr/share/wordpress/wp-content');
-?>" >> /etc/wordpress/config-localhost.php
+?>" >> /etc/wordpress/config-$(hostname -i).php
