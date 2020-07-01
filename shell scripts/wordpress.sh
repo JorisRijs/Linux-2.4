@@ -37,7 +37,7 @@ sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/mysql.conf.d/mysqld.cnf
 service mysql start
 
 echo d"<?php
-define('DB_NAME', '$DBuser);
+define('DB_NAME', 'wordpress');
 define('DB_USER', '$DBuser');
 define('DB_PASSWORD', '$DBpassword');
 define('DB_HOST', 'localhost');
