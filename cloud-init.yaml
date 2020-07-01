@@ -1,6 +1,36 @@
 #cloud-config
+#For the salt master
+runcmd:
+  - apt-get update && apt update
+  - apt-get upgrade && apt upgrade
+  - curl -L https://bootstrap.saltstack.com -o install_salt.sh
+  - sh install_salt.sh -M
+  - sudo -i
+  - curl https://assets.nagios.com/downloads/nagiosxi/install.sh | sh
+#for the salt minion
+runcmd:
+  - apt-get update && apt updatevim g
+  - apt-get upgrade && apt upgrade
+  - curl -L https://bootstrap.saltstack.com -o install_salt.sh
+  - sh install_salt.sh -A 10.0.7.149
+#for the monitoring server
 runcmd:
   - apt-get update && apt update
   - apt-get upgrade && apt upgrade
   - curl -L https://bootstrap.saltstack.com -o install_salt.sh
   - sh install_salt.sh -A 10.0.7.149
+  - cp /etc/rsyslog.conf /etc/rsyslog1.conf
+  - sudo tee -a /etc/rsyslog.conf > /dev/null <<EOT
+  \$ModLoad imudp
+  \$UDPServerRun 514
+  \$ModLoad imtcp
+  \$InputTCPServerRun 514
+  \$AllowedSender TCP, 127.0.0.1, 192.168.0.0/24, *.example.com
+  \$AllowedSender UDP, 127.0.0.1, 192.168.0.0/24, *.example.com
+  EOT
+  - sudo tee -a /etc/rsyslog.conf > /dev/null <<EOT
+  \$template remote-incoming-logs, "/var/log/%HOSTNAME%/%PROGRAMNAME%.log"
+  *.* ?remote-incoming-logs
+  EOT
+  - rsyslogd -f /etc/rsyslog.conf -N1
+  - systemctl restart rsyslog
