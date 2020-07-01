@@ -17,5 +17,5 @@
   - Wordpress
 - VM 4
   - Salt minion
-  - Docker
+  - Docker<br>
 <b>DIT ZIJN DE VOORLOPIGE SCRIPTS, HIER KUNNEN NOG VERANDERING IN WORDEN AANGEBRACHT (in overleg met Dhr. J.Bos)</b>
