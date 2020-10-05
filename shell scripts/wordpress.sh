@@ -6,7 +6,6 @@ Nagiospassword=$3
 Nagioshost=$4
 MySQLrootPassword1=$5
 
-sudo -i
 
 apt update
 apt install wordpress php libapache2-mod-php mysql-server php-mysql -y
